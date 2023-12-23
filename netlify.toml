@@ -7,7 +7,7 @@ for = "/*"
   Access-Control-Allow-Origin = "*"
 
 [[redirects]]
-  from = "/api*"
+  from = "/api"
   to = "https://gipsy-partners.com/api/sys/analytics.json-pretty:splat"
   status = 200
   force = true
