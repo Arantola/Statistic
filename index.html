@@ -24,9 +24,12 @@
   // ;
 
       // Функция для выполнения запроса к Netlify Function
-      async function fetchData() {
+
+      const from = "2023-11-01"
+      const to = "2023-12-01"
+      async function fetchData(user, from, to) {
         try {
-          const response = await fetch('/api?id=1-c89b95bac18d8810ea68d56a32db1aca&item=comp&user=81&phase=3&from=2023-11-01&to=2023-12-01');
+          const response = await fetch(`/api?id=1-c89b95bac18d8810ea68d56a32db1aca&item=comp&user=${user}&phase=3&from=${from}&to=${to}`);
           const data = await response.json();
           console.log('Data from Netlify Function:', data);
         } catch (error) {
@@ -45,7 +48,9 @@
       // }
 
       // Вызываем функцию при загрузке страницы
-      fetchData();
+      fetchData(81, from, to);
+      fetchData(82, from, to);
+      fetchData(89, from, to);
       // fetchData2();
     });
   </script>
