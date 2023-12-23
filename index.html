@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Netlify CORS Example</title>
+  <script type="module" src="./netlify/functions/proxy.js"></script>
 </head>
 <body>
 
@@ -11,10 +12,21 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+
+  //     const URL =
+  // "https://gipsy-partners.com/api/sys/analytics.json-pretty?
+  // id=1-c89b95bac18d8810ea68d56a32db1aca
+  // &item=comp
+  // &user=81
+  // &phase=3
+  // &from=2023-11-01
+  // &to=2023-12-01"
+  // ;
+
       // Функция для выполнения запроса к Netlify Function
       async function fetchData() {
         try {
-          const response = await fetch('/api');
+          const response = await fetch('/api&item=comp&user=81&phase=3&from=2023-11-01&to=2023-12-01');
           const data = await response.json();
           console.log('Data from Netlify Function:', data);
         } catch (error) {
@@ -22,19 +34,19 @@
         }
       }
 
-      async function fetchData2() {
-        try {
-          const response = await fetch('/api2');
-          const data = await response.json();
-          console.log('Data from Netlify Function:', data);
-        } catch (error) {
-          console.log('Error fetching data:', error);
-        }
-      }
+      // async function fetchData2() {
+      //   try {
+      //     const response = await fetch('/api2');
+      //     const data = await response.json();
+      //     console.log('Data from Netlify Function:', data);
+      //   } catch (error) {
+      //     console.log('Error fetching data:', error);
+      //   }
+      // }
 
       // Вызываем функцию при загрузке страницы
       fetchData();
-      fetchData2();
+      // fetchData2();
     });
   </script>
 
