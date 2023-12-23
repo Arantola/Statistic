@@ -26,7 +26,7 @@
       // Функция для выполнения запроса к Netlify Function
       async function fetchData() {
         try {
-          const response = await fetch('/api&item=comp&user=81&phase=3&from=2023-11-01&to=2023-12-01');
+          const response = await fetch('/api?id=1-c89b95bac18d8810ea68d56a32db1aca&item=comp&user=81&phase=3&from=2023-11-01&to=2023-12-01');
           const data = await response.json();
           console.log('Data from Netlify Function:', data);
         } catch (error) {
