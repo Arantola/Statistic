@@ -16,9 +16,9 @@
         try {
           const response = await fetch('/.netlify/functions/proxy');
           const data = await response.json();
-          alert('Data from Netlify Function:', data);
+          console.log('Data from Netlify Function:', data);
         } catch (error) {
-          alert('Error fetching data:', error);
+          console.log('Error fetching data:', error);
         }
       }
 
