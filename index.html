@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+</head>
+<style>
+  #jsonFlex {
+    width: auto;
+    overflow-x: auto;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 5px;
+  }
+
+  #jsonGrid {
+    display: grid;
+    grid-template-areas:
+      "Shakes-pro LemonAD AffScale Aff1"
+      "Everad Adcombo Affstar LeadRock"
+      "Terra-Leads dr-cash-stolcs81 LuckyOnline dr-cash"
+      "Shakes-stolcs81 auron-scaleo Offer-store LeadReaktor"
+      "ProfitPay";
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+    white-space: nowrap;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-areas:
+      "Shakes-pro LemonAD AffScale Aff1"
+      "Everad Adcombo Affstar LeadRock"
+      "Terra-Leads dr-cash-stolcs81 LuckyOnline dr-cash"
+      "Shakes-stolcs81 auron-scaleo Offer-store LeadReaktor"
+      "ProfitPay";
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+    white-space: nowrap;
+  }
+
+  .title_line {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+  }
+
+  .grid-item {
+    display: grid;
+    padding: 10px;
+    border: 1px solid #ddd;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-areas: "name AffScale Aff1 Shakes LemonAD";
+  }
+
+  .grid-item-header {
+    font-weight: bold;
+  }
+
+  .line {
+    padding: 20px;
+    display: grid;
+  }
+</style>
+
+<body>
+  <button type="button" id="button">HELLO</button>
+  <div id="jsonFlex"></div>
+  <script src="ajax.js"></script>
+  <!-- <script>
+    const TITLES = [
+      "Вебмастер",
+      "Adcombo",
+      "Aff1",
+      "AffScale",
+      "Affstar",
+      "auron.scaleo",
+      "cryp.im",
+      "dr.cash",
+      "dr.cash stolcs81@gmail.com",
+      "Everad",
+      "INB",
+      "KMA Biz",
+      "LeadBit",
+      "LeadReaktor",
+      "LeadRock",
+      "LemonAD",
+      "LemonAd Vovahom",
+      "Lucky2Online",
+      "LuckyOnline",
+      "M1 Shop",
+      "Moonadvert",
+      "Offer.store",
+      "ProfitPay",
+      "RocketProfit",
+      "Shakes stolcs81@gmail.com",
+      "Shakes.pro",
+      "SkyLead",
+      "Terra Leads",
+    ];
+
+    // const TITLES = [
+    //   "Shakes.pro",
+    //   "Shakes stolcs81@gmail.com",
+    //   "LemonAD",
+    //   "AffScale",
+    //   "Aff1",
+    //   "Everad",
+    //   "Adcombo",
+    //   "Affstar",
+    //   "LeadRock",
+    //   "Terra Leads",
+    //   "LuckyOnline",
+    //   "dr.cash",
+    //   "dr.cash stolcs81@gmail.com",
+    //   "auron.scaleo",
+    //   "Offer.store",
+    //   "LeadReaktor",
+    //   "ProfitPay",
+    // ];
+
+    const FLEX = document.getElementById("jsonFlex");
+    const GRID = document.getElementById("jsonGrid");
+    // const LINE_NODE = document.createElement("div");
+    // LINE_NODE.classList.add("grid");
+
+    // for (const TITLE in TITLES) {
+    //   const TITLE_NODE = document.createElement("div");
+    //   TITLE_NODE.textContent = TITLES[TITLE];
+    //   TITLE_NODE.classList.add("cell");
+
+    //   LINE_NODE.appendChild(TITLE_NODE);
+    // }
+    // FLEX.appendChild(LINE_NODE);
+
+    async function loadJSON(url) {
+      const response = await fetch(url);
+      const data = await response.json();
+      return data;
+    }
+
+    //  https://gipsy-partners.com/api/sys/analytics.json-pretty?id=1-c89b95bac18d8810ea68d56a32db1aca&item=comp&user=90&from=2023-11-01&to=2023-12-01&phase=3
+
+    const data = {
+      "Иванова Анастасия Николаевна": "./81.json",
+      // "Сериков Роман Андреевич": "./82.json",
+      "Евженко Илья Владимиррович": "./89.json",
+      "Колесников Егор Сергеевич": "./90.json",
+      // "Иванюченко Дмитрий Юрьевич": "./94.json",
+      "Бочаров Евгений Дмитриевич": "./97.json",
+      "Козлов Егор Владимирович": "./102.json",
+      "Сидорский Глеб Олегович": "./107.json",
+      "Шерай Андрей Викторович": "./112.json",
+      // "Коровка Анастасия Сергеевна": "./121.json",
+      // "Аккаунт для Джунов": "./130.json",
+      "Столяров Анатолий Игоревич": "./131.json",
+      // "Попов Дмитрий Николаевич": "./138.json",
+      "Добряков Павел Александрович": "./141.json",
+      "Козлов Игорь Владимирович": "./143.json",
+      // "Максим Мурачёв": "./144.json",
+      "Бурзиев Кирилл Владимирович": "./146.json",
+      "Козлов Кирилл Владимирович": "./147.json",
+      "Кухновец Николай Владимирович": "./151.json",
+      "Леус Константин Владимирович": "./152.json",
+
+    };
+
+    const entries = Object.entries(data);
+
+    for (const [WM_NAME, PATH] of entries) {
+      loadJSON(`${PATH}`)
+        .then((data) => {
+          const companies = Object.values(data);
+
+          const LINE_NODE = document.createElement("div");
+          LINE_NODE.classList.add('line')
+          const NAME_NODE = document.createElement("div");
+          NAME_NODE.textContent = `${WM_NAME}`;
+          LINE_NODE.appendChild(NAME_NODE);
+
+          for (const companie of companies) {
+            const COMPANY_NAME = companie.name;
+
+            const PROFIT = companie?.phase?.[3]?.wm ?? "";
+
+            const WORTH_NODE = document.createElement("div");
+            WORTH_NODE.textContent = `${COMPANY_NAME} : ${PROFIT}`;
+            LINE_NODE.appendChild(WORTH_NODE);
+          }
+          FLEX.appendChild(LINE_NODE);
+        })
+        .catch((error) => console.error(`Error loading ${PATH}`, error));
+    }
+  </script> -->
+</body>
+
+</html>
