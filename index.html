@@ -12,46 +12,34 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-
-  //     const URL =
-  // "https://gipsy-partners.com/api/sys/analytics.json-pretty?
-  // id=1-c89b95bac18d8810ea68d56a32db1aca
-  // &item=comp
-  // &user=81
-  // &phase=3
-  // &from=2023-11-01
-  // &to=2023-12-01"
-  // ;
-
-      // Функция для выполнения запроса к Netlify Function
-
+      const dataArray = [];
       const from = "2023-11-01"
       const to = "2023-12-01"
       async function fetchData(user, from, to) {
         try {
           const response = await fetch(`/api?id=1-c89b95bac18d8810ea68d56a32db1aca&item=comp&user=${user}&phase=3&from=${from}&to=${to}`);
           const data = await response.json();
+
+          dataArray.push(data);
           console.log('Data from Netlify Function:', data);
         } catch (error) {
           console.log('Error fetching data:', error);
         }
       }
 
-      // async function fetchData2() {
-      //   try {
-      //     const response = await fetch('/api2');
-      //     const data = await response.json();
-      //     console.log('Data from Netlify Function:', data);
-      //   } catch (error) {
-      //     console.log('Error fetching data:', error);
-      //   }
-      // }
 
-      // Вызываем функцию при загрузке страницы
+      const userObj = {"id": 82,
+      "name": "Иванова Анастасия",
+      "shakes": 1002,
+      "drcash": 4212
+    }
+
       fetchData(81, from, to);
       fetchData(82, from, to);
       fetchData(89, from, to);
-      // fetchData2();
+      fetchData(102, from, to);
+      fetchData(112, from, to);
+      fetchData(107, from, to);
     });
   </script>
 
