@@ -14,7 +14,7 @@
       // Функция для выполнения запроса к Netlify Function
       async function fetchData() {
         try {
-          const response = await fetch('/.netlify/functions/proxy');
+          const response = await fetch('/api');
           const data = await response.json();
           console.log('Data from Netlify Function:', data);
         } catch (error) {
