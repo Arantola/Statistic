@@ -130,11 +130,13 @@
                 if (!userObject.hasOwnProperty(companyName)) {
                   userObject[companyName] = totalAmount;
                   if (totalAmount !== 0) {
+                    console.log(companyName)
                     activeCompaniesSet.add(companyName)
                   }
                 } else {
                   userObject[companyName] += totalAmount;
                   if (totalAmount !== 0) {
+                    console.log(companyName)
                     activeCompaniesSet.add(companyName);
                   }
                 }
