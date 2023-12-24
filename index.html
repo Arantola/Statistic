@@ -22,6 +22,8 @@
     <input type="text" id="endDate" data-input>
   </div>
 
+  <div id="tableContainer"></div>
+
   <script>
     let from = new Date();
     let to = new Date();
@@ -157,9 +159,59 @@
         fetchData(id, from, to);
       }
 
-      console.log('Data from Netlify Function:', dataArray);
+      console.log('Final data:', dataArray);
       console.log('Active Companies:', activeCompaniesSet);
+
+      const tableContainer = document.getElementById('tableContainer');
+const table = document.createElement('table');
+table.setAttribute('border', '1');
+
+// Создаем заголовок таблицы
+const headerRow = document.createElement('tr');
+
+// Создаем ячейки заголовков на основе данных из activeCompaniesSet
+const idHeader = document.createElement('th');
+idHeader.textContent = 'ID';
+headerRow.appendChild(idHeader);
+
+const nameHeader = document.createElement('th');
+nameHeader.textContent = 'Name';
+headerRow.appendChild(nameHeader);
+
+activeCompaniesSet.forEach(companyName => {
+  const companyHeader = document.createElement('th');
+  companyHeader.textContent = companyName;
+  headerRow.appendChild(companyHeader);
+});
+
+table.appendChild(headerRow);
+
+// Создаем строки с данными
+dataArray.forEach(userObject => {
+  const dataRow = document.createElement('tr');
+
+  // Добавляем ячейки с данными пользователя
+  const idCell = document.createElement('td');
+  idCell.textContent = userObject.id;
+  dataRow.appendChild(idCell);
+
+  const nameCell = document.createElement('td');
+  nameCell.textContent = userObject.name;
+  dataRow.appendChild(nameCell);
+
+  activeCompaniesSet.forEach(companyName => {
+    const companyCell = document.createElement('td');
+    companyCell.textContent = userObject[companyName];
+    dataRow.appendChild(companyCell);
+  });
+
+  table.appendChild(dataRow);
+});
+
+tableContainer.appendChild(table);
     });
+
+
   </script>
 
 </body>
