@@ -7,6 +7,7 @@
   <!-- <script type="module" src="./netlify/functions/proxy.js"></script> -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
 </head>
 <body>
   <style>
@@ -49,6 +50,17 @@
   </div>
 
   <h2>Отчёт за период с <span id="from"></span> по <span id="to"></span></h2>
+
+  <button onclick="exportTableToXLSX()">Сохранить в формате XLSX</button>
+
+  <script>
+    function exportTableToXLSX() {
+      const table = document.getElementById("tableContainer");
+      const wb = XLSX.utils.table_to_book(table, { sheet: "SheetJS" });
+      XLSX.writeFile(wb, "table.xlsx");
+    }
+  </script>
+
   <div id="tableContainer"></div>
 
   <script>
