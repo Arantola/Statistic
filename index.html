@@ -37,15 +37,18 @@
       const startDatePicker = flatpickr(startDateInput, {
         dateFormat: 'Y-m-d',
         onChange: function (selectedDates, dateStr) {
-          startDate = dateStr;
-          console.log('Start Date:', startDate);
+          from = new Date(dateStr);
+          console.log('Start Date:', from);
+          getDataAndRenderTable();
         }
       });
+
       const endDatePicker = flatpickr(endDateInput, {
         dateFormat: 'Y-m-d',
         onChange: function (selectedDates, dateStr) {
-          endDate = dateStr;
-          console.log('End Date:', endDate);
+          to = new Date(dateStr);
+          console.log('End Date:', to);
+          getDataAndRenderTable();
         }
       });
 
@@ -55,36 +58,35 @@
   </script>
 
   <script>
-    document.addEventListener('DOMContentLoaded', async function() {
-      const USERNAMES = {
-        81: "Иванова Анастасия Николаевна",
-        82: "Сериков Роман Андреевич",
-        89: "Евженко Илья Владимиррович",
-        90: "Колесников Егор Сергеевич",
-        94: "Иванюченко Дмитрий Юрьевич",
-        97: "Бочаров Евгений Дмитриевич",
-        102: "Козлов Егор Владимирович",
-        107: "Сидорский Глеб Олегович",
-        112: "Шерай Андрей Викторович",
-        121: "Коровка Анастасия Сергеевна",
-        130: "Аккаунт для Джунов",
-        131: "Столяров Анатолий Игоревич",
-        138: "Попов Дмитрий Николаевич",
-        141: "Добряков Павел Александрович",
-        143: "Козлов Игорь Владимирович",
-        144: "Максим Мурачёв",
-        146: "Бурзиев Кирилл Владимирович",
-        147: "Козлов Кирилл Владимирович",
-        151: "Кухновец Николай Владимирович",
-        152: "Леус Константин Владимирович"
-      };
+    const USERNAMES = {
+            81: "Иванова Анастасия Николаевна",
+            82: "Сериков Роман Андреевич",
+            89: "Евженко Илья Владимиррович",
+            90: "Колесников Егор Сергеевич",
+            94: "Иванюченко Дмитрий Юрьевич",
+            97: "Бочаров Евгений Дмитриевич",
+            102: "Козлов Егор Владимирович",
+            107: "Сидорский Глеб Олегович",
+            112: "Шерай Андрей Викторович",
+            121: "Коровка Анастасия Сергеевна",
+            130: "Аккаунт для Джунов",
+            131: "Столяров Анатолий Игоревич",
+            138: "Попов Дмитрий Николаевич",
+            141: "Добряков Павел Александрович",
+            143: "Козлов Игорь Владимирович",
+            144: "Максим Мурачёв",
+            146: "Бурзиев Кирилл Владимирович",
+            147: "Козлов Кирилл Владимирович",
+            151: "Кухновец Николай Владимирович",
+            152: "Леус Константин Владимирович"
+          };
 
+    async function getDataAndRenderTable() {
       const dataArray = [];
       const activeCompaniesSet = new Set();
-
       const fetchPromises = [];
 
-      function transformToUserObject(id, responseObject) {
+       function transformToUserObject(id, responseObject) {
         const template = { 
           "Adcombo": 0,
           "Aff1": 0,
@@ -156,53 +158,35 @@
       }
 
       try {
-          // Ждем завершения всех запросов перед продолжением
           await Promise.all(fetchPromises);
-
-          console.log('Final data:', dataArray);
-          console.log('Active Companies:', activeCompaniesSet);
 
           const tableContainer = document.getElementById('tableContainer');
           const table = document.createElement('table');
           table.setAttribute('border', '1');
 
-          // Создаем заголовок таблицы
           const headerRow = document.createElement('tr');
 
-          // Создаем ячейки заголовков на основе данных из activeCompaniesSet
-          const idHeader = document.createElement('th');
-          idHeader.textContent = 'ID';
-          headerRow.appendChild(idHeader);
+          function addElement(parentNone, tag, textContent='') {
+            const element = document.createElement(tag);
+            element.textContent = textContent;
+            parentNone.appendChild(element);
+          }
 
-          const nameHeader = document.createElement('th');
-          nameHeader.textContent = 'Name';
-          headerRow.appendChild(nameHeader);
-
+          addElement(headerRow,'th','ID')
+          addElement(headerRow,'th','Name')
           activeCompaniesSet.forEach(companyName => {
-            const companyHeader = document.createElement('th');
-            companyHeader.textContent = companyName;
-            headerRow.appendChild(companyHeader);
+            addElement(headerRow,'th',companyName)
           });
 
           table.appendChild(headerRow);
 
-          // Создаем строки с данными
           dataArray.forEach(userObject => {
             const dataRow = document.createElement('tr');
 
-            // Добавляем ячейки с данными пользователя
-            const idCell = document.createElement('td');
-            idCell.textContent = userObject.id;
-            dataRow.appendChild(idCell);
-
-            const nameCell = document.createElement('td');
-            nameCell.textContent = userObject.name;
-            dataRow.appendChild(nameCell);
-
+            addElement(dataRow, 'td', userObject.id);
+            addElement(dataRow, 'td', userObject.name);
             activeCompaniesSet.forEach(companyName => {
-              const companyCell = document.createElement('td');
-              companyCell.textContent = userObject[companyName];
-              dataRow.appendChild(companyCell);
+              addElement(dataRow, 'td', userObject[companyName]);
             });
 
             table.appendChild(dataRow);
@@ -212,7 +196,14 @@
         } catch (error) {
           console.log('Error fetching data:', error);
         }
-      });
+      
+    }
+
+    document.addEventListener('DOMContentLoaded', async function() {
+      getDataAndRenderTable();
+    });
+
+
 
 
   </script>
