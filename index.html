@@ -25,6 +25,8 @@
   <script>
     let from = new Date();
     let to = new Date();
+    console.log(from)
+    console.log(to)
 
     document.addEventListener('DOMContentLoaded', function () {
       const startDateInput = document.getElementById('startDate');
@@ -123,7 +125,7 @@
             }
         }
 
-
+        return userObject;
       }
 
       async function fetchData(userId, from, to) {
@@ -144,13 +146,10 @@
       
       // Выводим ячейки с компанииями проверяя есть ли они в списке
 
+      for (id in USERNAMES) {
+        fetchData(id, from, to);
+      }
 
-      fetchData(81, from, to);
-      fetchData(82, from, to);
-      fetchData(89, from, to);
-      fetchData(102, from, to);
-      fetchData(112, from, to);
-      fetchData(107, from, to);
 
       console.log('Data from Netlify Function:', dataArray);
     });
