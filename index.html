@@ -211,16 +211,13 @@
 
       try {
           await Promise.all(fetchPromises);
-
-
           const table = document.createElement('table');
-          table.setAttribute('border', '1');
 
           const headerRow = document.createElement('tr');
 
           function addElement(parentNone, tag, textContent='') {
             const element = document.createElement(tag);
-            element.textContent = textContent;
+            element.textContent = textContent == 0 ? textContent : '';
             parentNone.appendChild(element);
           }
 
