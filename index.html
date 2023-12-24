@@ -34,6 +34,16 @@
     background-color: rgba(101, 173, 101, 0.8);
   } */
 
+  .id {
+    max-width: 20px;
+  }
+  .name {
+    max-width: 100px;
+  }
+
+  td {
+    min-width: 50px;
+  }
   
   </style>
 
@@ -235,6 +245,15 @@
           function addElement(parentNone, tag, textContent='') {
             const element = document.createElement(tag);
             element.textContent = textContent == 0 ? "" : textContent;
+            
+
+            if (textContent === "Name") {
+              element.classList.add("name")
+            }
+            if (textContent === "ID") {
+              element.classList.add("id")
+            }
+
             parentNone.appendChild(element);
           }
 
@@ -254,6 +273,8 @@
             activeCompaniesSet.forEach(companyName => {
               addElement(dataRow, 'td', userObject[companyName]);
             });
+
+            // dataRow.addEventListener("click", highlightLine); TODO по клику подсвечивать линию
 
             table.appendChild(dataRow);
           });
