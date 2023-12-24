@@ -25,6 +25,8 @@
   <div id="tableContainer"></div>
 
   <script>
+    const MONTH = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+    const MONTH_SHORT = ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'];
 
     function formatDate(date) {
       const year = date.getFullYear();
@@ -49,6 +51,11 @@
 
       const startDatePicker = flatpickr(startDateInput, {
         dateFormat: 'Y-m-d',
+        locale: 'ru',
+        monthNames: {
+          shorthand: MONTH_SHORT,
+          longhand: MONTH
+        },
         onChange: function (selectedDates, dateStr) {
           from = new Date(dateStr);
           getDataAndRenderTable();
@@ -57,6 +64,11 @@
 
       const endDatePicker = flatpickr(endDateInput, {
         dateFormat: 'Y-m-d',
+        locale: 'ru',
+        monthNames: {
+          shorthand: MONTH_SHORT,
+          longhand: MONTH
+        },
         onChange: function (selectedDates, dateStr) {
           to = new Date(dateStr);
           getDataAndRenderTable();
