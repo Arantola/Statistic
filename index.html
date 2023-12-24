@@ -217,7 +217,7 @@
 
           function addElement(parentNone, tag, textContent='') {
             const element = document.createElement(tag);
-            element.textContent = textContent == 0 ? textContent : '';
+            element.textContent = textContent == 0 ? "" : textContent;
             parentNone.appendChild(element);
           }
 
