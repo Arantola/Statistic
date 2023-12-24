@@ -5,34 +5,145 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Netlify CORS Example</title>
   <!-- <script type="module" src="./netlify/functions/proxy.js"></script> -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </head>
 <body>
 
   <h1>Netlify CORS Example</h1>
 
+  <div>
+    <label for="startDate">Start Date:</label>
+    <input type="text" id="startDate" data-input>
+  </div>
+  
+  <div>
+    <label for="endDate">End Date:</label>
+    <input type="text" id="endDate" data-input>
+  </div>
+
+  <script>
+    let from = new Date();
+    let to = new Date();
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const startDateInput = document.getElementById('startDate');
+      const endDateInput = document.getElementById('endDate');
+
+      const startDatePicker = flatpickr(startDateInput, {
+        dateFormat: 'Y-m-d',
+        onChange: function (selectedDates, dateStr) {
+          startDate = dateStr;
+          console.log('Start Date:', startDate);
+        }
+      });
+      const endDatePicker = flatpickr(endDateInput, {
+        dateFormat: 'Y-m-d',
+        onChange: function (selectedDates, dateStr) {
+          endDate = dateStr;
+          console.log('End Date:', endDate);
+        }
+      });
+
+      startDatePicker.setDate(from);
+      endDatePicker.setDate(to);
+    });
+  </script>
+
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      const dataArray = [];
-      const from = "2023-11-01"
-      const to = "2023-12-01"
-      async function fetchData(user, from, to) {
-        try {
-          const response = await fetch(`/api?id=1-c89b95bac18d8810ea68d56a32db1aca&item=comp&user=${user}&phase=3&from=${from}&to=${to}`);
-          const data = await response.json();
+      const USERNAMES = {
+        81: "Иванова Анастасия Николаевна",
+        82: "Сериков Роман Андреевич",
+        89: "Евженко Илья Владимиррович",
+        90: "Колесников Егор Сергеевич",
+        94: "Иванюченко Дмитрий Юрьевич",
+        97: "Бочаров Евгений Дмитриевич",
+        102: "Козлов Егор Владимирович",
+        107: "Сидорский Глеб Олегович",
+        112: "Шерай Андрей Викторович",
+        121: "Коровка Анастасия Сергеевна",
+        130: "Аккаунт для Джунов",
+        131: "Столяров Анатолий Игоревич",
+        138: "Попов Дмитрий Николаевич",
+        141: "Добряков Павел Александрович",
+        143: "Козлов Игорь Владимирович",
+        144: "Максим Мурачёв",
+        146: "Бурзиев Кирилл Владимирович",
+        147: "Козлов Кирилл Владимирович",
+        151: "Кухновец Николай Владимирович",
+        152: "Леус Константин Владимирович"
+      };
 
-          dataArray.push(data);
+      const dataArray = [];
+
+      function transformToUserObject(id, responseObject) {
+          const template = { 
+          "Adcombo": 0,
+          "Aff1": 0,
+          "AffScale": 0,
+          "Affstar": 0,
+          "auron.scaleo": 0,
+          "cryp.im": 0,
+          "dr.cash": 0,
+          "dr.cash stolcs81@gmail.com": 0,
+          "Everad": 0,
+          "INB": 0,
+          "KMA Biz": 0,
+          "LeadBit": 0,
+          "LeadReaktor": 0,
+          "LeadRock": 0,
+          "LemonAD": 0,
+          "LemonAd Vovahom": 0,
+          "Lucky2Online": 0,
+          "LuckyOnline": 0,
+          "M1 Shop": 0,
+          "Moonadvert": 0,
+          "Offer.store": 0,
+          "ProfitPay": 0,
+          "RocketProfit": 0,
+          "Shakes stolcs81@gmail.com": 0,
+          "Shakes.pro": 0,
+          "SkyLead": 0,
+          "Terra Leads": 0,
+        };
+
+        const userObject = { "id": id, "name": USERNAMES[id], ...template};
+
+        for (const key in responseObject) {
+            if (responseObject.hasOwnProperty(key)) {
+                const companyName = responseObject[key].name;
+                const totalAmount = responseObject[key].wm;
+
+                if (!userObject.hasOwnProperty(companyName)) {
+                  userObject[companyName] = totalAmount;
+                } else {
+                  userObject[companyName] += totalAmount;
+                }
+            }
+        }
+
+
+      }
+
+      async function fetchData(userId, from, to) {
+        try {
+          const response = await fetch(`/api?id=1-c89b95bac18d8810ea68d56a32db1aca&item=comp&user=${userId}&phase=3&from=${from}&to=${to}`);
+          const responseObject = await response.json();
+
+          dataArray.push(transformToUserObject(userId, responseObject));
           console.log('Data from Netlify Function:', data);
         } catch (error) {
           console.log('Error fetching data:', error);
         }
       }
 
+      // Собираем упомянутые компании в список
 
-      const userObj = {"id": 82,
-      "name": "Иванова Анастасия",
-      "shakes": 1002,
-      "drcash": 4212
-    }
+      // Формируем обьект пользователя с шаблона, чтобы остались и компании с 0
+      
+      // Выводим ячейки с компанииями проверяя есть ли они в списке
+
 
       fetchData(81, from, to);
       fetchData(82, from, to);
@@ -40,6 +151,8 @@
       fetchData(102, from, to);
       fetchData(112, from, to);
       fetchData(107, from, to);
+
+      console.log('Data from Netlify Function:', dataArray);
     });
   </script>
 
