@@ -9,6 +9,27 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </head>
 <body>
+  <style>
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  td, th {
+    border: 1px solid lightgray;
+    padding: 8px;
+    text-align: left;
+  }
+
+  td:not(:empty),
+  th:not(:empty) {
+    background-color: lightgreen;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f5f5f5;
+  }
+  </style>
 
   <h1>Netlify CORS Example</h1>
 
