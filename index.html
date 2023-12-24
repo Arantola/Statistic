@@ -157,15 +157,13 @@
                 const totalAmount = responseObject[key].wm;
 
                 if (!userObject.hasOwnProperty(companyName)) {
-                  userObject[companyName] = totalAmount;
+                  userObject[companyName] = totalAmount.toFixed(2);
                   if (totalAmount !== 0) {
-                    console.log(companyName)
                     activeCompaniesSet.add(companyName)
                   }
                 } else {
                   userObject[companyName] += totalAmount;
                   if (totalAmount !== 0) {
-                    console.log(companyName)
                     activeCompaniesSet.add(companyName);
                   }
                 }
