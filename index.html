@@ -55,7 +55,7 @@
   </script>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', async function() {
       const USERNAMES = {
         81: "Иванова Анастасия Николаевна",
         82: "Сериков Роман Андреевич",
@@ -82,8 +82,10 @@
       const dataArray = [];
       const activeCompaniesSet = new Set();
 
+      const fetchPromises = [];
+
       function transformToUserObject(id, responseObject) {
-          const template = { 
+        const template = { 
           "Adcombo": 0,
           "Aff1": 0,
           "AffScale": 0,
@@ -149,67 +151,68 @@
         }
       }
 
-      // Собираем упомянутые компании в список
-
-      // Формируем обьект пользователя с шаблона, чтобы остались и компании с 0
-      
-      // Выводим ячейки с компанииями проверяя есть ли они в списке
-
-      for (id in USERNAMES) {
-        fetchData(id, from, to);
+      for (const id in USERNAMES) {
+        fetchPromises.push(fetchData(id, from, to));
       }
 
-      console.log('Final data:', dataArray);
-      console.log('Active Companies:', activeCompaniesSet);
+      try {
+          // Ждем завершения всех запросов перед продолжением
+          await Promise.all(fetchPromises);
 
-      const tableContainer = document.getElementById('tableContainer');
-const table = document.createElement('table');
-table.setAttribute('border', '1');
+          console.log('Final data:', dataArray);
+          console.log('Active Companies:', activeCompaniesSet);
 
-// Создаем заголовок таблицы
-const headerRow = document.createElement('tr');
+          const tableContainer = document.getElementById('tableContainer');
+          const table = document.createElement('table');
+          table.setAttribute('border', '1');
 
-// Создаем ячейки заголовков на основе данных из activeCompaniesSet
-const idHeader = document.createElement('th');
-idHeader.textContent = 'ID';
-headerRow.appendChild(idHeader);
+          // Создаем заголовок таблицы
+          const headerRow = document.createElement('tr');
 
-const nameHeader = document.createElement('th');
-nameHeader.textContent = 'Name';
-headerRow.appendChild(nameHeader);
+          // Создаем ячейки заголовков на основе данных из activeCompaniesSet
+          const idHeader = document.createElement('th');
+          idHeader.textContent = 'ID';
+          headerRow.appendChild(idHeader);
 
-activeCompaniesSet.forEach(companyName => {
-  const companyHeader = document.createElement('th');
-  companyHeader.textContent = companyName;
-  headerRow.appendChild(companyHeader);
-});
+          const nameHeader = document.createElement('th');
+          nameHeader.textContent = 'Name';
+          headerRow.appendChild(nameHeader);
 
-table.appendChild(headerRow);
+          activeCompaniesSet.forEach(companyName => {
+            const companyHeader = document.createElement('th');
+            companyHeader.textContent = companyName;
+            headerRow.appendChild(companyHeader);
+          });
 
-// Создаем строки с данными
-dataArray.forEach(userObject => {
-  const dataRow = document.createElement('tr');
+          table.appendChild(headerRow);
 
-  // Добавляем ячейки с данными пользователя
-  const idCell = document.createElement('td');
-  idCell.textContent = userObject.id;
-  dataRow.appendChild(idCell);
+          // Создаем строки с данными
+          dataArray.forEach(userObject => {
+            const dataRow = document.createElement('tr');
 
-  const nameCell = document.createElement('td');
-  nameCell.textContent = userObject.name;
-  dataRow.appendChild(nameCell);
+            // Добавляем ячейки с данными пользователя
+            const idCell = document.createElement('td');
+            idCell.textContent = userObject.id;
+            dataRow.appendChild(idCell);
 
-  activeCompaniesSet.forEach(companyName => {
-    const companyCell = document.createElement('td');
-    companyCell.textContent = userObject[companyName];
-    dataRow.appendChild(companyCell);
-  });
+            const nameCell = document.createElement('td');
+            nameCell.textContent = userObject.name;
+            dataRow.appendChild(nameCell);
 
-  table.appendChild(dataRow);
-});
+            activeCompaniesSet.forEach(companyName => {
+              const companyCell = document.createElement('td');
+              companyCell.textContent = userObject[companyName];
+              dataRow.appendChild(companyCell);
+            });
 
-tableContainer.appendChild(table);
-    });
+            table.appendChild(dataRow);
+          });
+
+          tableContainer.appendChild(table);
+        } catch (error) {
+          console.log('Error fetching data:', error);
+        }
+      });
 
 
   </script>
