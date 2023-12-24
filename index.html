@@ -22,11 +22,17 @@
     <input type="text" id="endDate" data-input>
   </div>
 
+  <h2>Отчёт за период с <span id="from"></span> по <span id="to"></span></h2>
   <div id="tableContainer"></div>
 
   <script>
     const MONTH = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
     const MONTH_SHORT = ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'];
+
+
+    const tableContainer = document.getElementById('tableContainer');
+    const fromDisplay = document.getElementById('from');
+    const toDisplay = document.getElementById('to');
 
     function formatDate(date) {
       const year = date.getFullYear();
@@ -105,11 +111,12 @@
           };
 
     async function getDataAndRenderTable() {
-      const tableContainer = document.getElementById('tableContainer');
       tableContainer.innerHTML = '';
       const dataArray = [];
       const activeCompaniesSet = new Set();
       const fetchPromises = [];
+      fromDisplay.innerText = formatDate(from);
+      toDisplay.innerText = formatDate(to);
 
        function transformToUserObject(id, responseObject) {
         const template = { 
