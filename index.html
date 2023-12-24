@@ -25,6 +25,16 @@
   <div id="tableContainer"></div>
 
   <script>
+
+    function formatDate(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      const formattedDate = `${year}-${month}-${day}`;
+
+      return formattedDate;
+    }
+
     const currentDate = new Date();
     const firstDayOfCurrentMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
     const nextMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
@@ -148,7 +158,7 @@
 
       async function fetchData(userId, from, to) {
         try {
-          const response = await fetch(`/api?id=1-c89b95bac18d8810ea68d56a32db1aca&item=comp&user=${userId}&phase=3&from=${from}&to=${to}`);
+          const response = await fetch(`/api?id=1-c89b95bac18d8810ea68d56a32db1aca&item=comp&user=${userId}&phase=3&from=${formatDate(from)}&to=${formatDate(to)}`);
           const responseObject = await response.json();
 
           dataArray.push(transformToUserObject(userId, responseObject));
