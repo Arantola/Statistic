@@ -83,6 +83,8 @@
           };
 
     async function getDataAndRenderTable() {
+      const tableContainer = document.getElementById('tableContainer');
+      tableContainer.innerHTML = '';
       const dataArray = [];
       const activeCompaniesSet = new Set();
       const fetchPromises = [];
@@ -160,7 +162,7 @@
       try {
           await Promise.all(fetchPromises);
 
-          const tableContainer = document.getElementById('tableContainer');
+
           const table = document.createElement('table');
           table.setAttribute('border', '1');
 
